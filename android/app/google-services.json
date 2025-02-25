@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "286015491573",
+    "firebase_url": "https://app-vet-ae313-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "app-vet-ae313",
+    "storage_bucket": "app-vet-ae313.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286015491573:android:f5d77a3c10c10ce549a4bc",
+        "android_client_info": {
+          "package_name": "com.example.app_vet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBR4UQk3BWiG7vR-zxvIA1rU8JZGUvKmhU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
