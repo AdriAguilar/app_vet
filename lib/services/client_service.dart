@@ -3,6 +3,7 @@ import '../models/Client.dart';
 
 class ClientService {
   final DatabaseReference _clientsRef = FirebaseDatabase.instance.ref('clients');
+  final DatabaseReference _petsRef = FirebaseDatabase.instance.ref('pets');
 
   Stream<List<Client>> get clientsStream {
     return _clientsRef.onValue.map((event) {
@@ -41,6 +42,23 @@ class ClientService {
 
   // Eliminar cliente
   Future<void> deleteClient(String clientId) async {
-    await _clientsRef.child(clientId).remove();
+    try {
+      final clientSnapshot = await _clientsRef.child(clientId).get();
+      if (!clientSnapshot.exists) {
+        print('El cliente con ID $clientId no existe.');
+        return;
+      }
+
+      final clientData = clientSnapshot.value as Map<dynamic, dynamic>;
+      final petIds = List<String>.from(clientData['mascotas'] ?? []);
+
+      for (final petId in petIds) {
+        await _petsRef.child(petId).remove();
+        print('Mascota con ID $petId eliminada.');
+      }
+      await _clientsRef.child(clientId).remove();
+    } catch (e) {
+      print('Error eliminando cliente: $e');
+    }
   }
 }
