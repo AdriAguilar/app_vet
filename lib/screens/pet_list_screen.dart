@@ -48,7 +48,7 @@ class PetListScreen extends StatelessWidget {
                       IconButton(
                         icon: Icon(Icons.delete),
                         onPressed: () async {
-                          await petProvider.deletePet(pet.id);
+                          await petProvider.deletePet(context, pet.id);
                         },
                       ),
                     ],

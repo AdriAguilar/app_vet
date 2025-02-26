@@ -1,4 +1,6 @@
+import 'package:app_vet/providers/client_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../services/pet_service.dart';
 import '../models/Pet.dart';
 
@@ -10,7 +12,25 @@ class PetProvider with ChangeNotifier {
 
   // Escuchar cambios en tiempo real
   void listenToPets() {
+    _pets.clear();
     _petService.petsStream.listen(
+      (pets) {
+        try {
+          _pets = pets;
+          notifyListeners();
+        } catch (e) {
+          print('Error procesando mascotas: $e');
+        }
+      },
+      onError: (error) {
+        print('Error obteniendo mascotas: $error');
+      },
+    );
+  }
+
+  void getPetsByClient(String clientId) {
+    _pets.clear();
+    _petService.getPetsByClient(clientId).listen(
       (pets) {
         try {
           _pets = pets;
@@ -38,8 +58,19 @@ class PetProvider with ChangeNotifier {
   }
 
   // Eliminar mascota
-  Future<void> deletePet(String petId) async {
+  Future<void> deletePet(BuildContext context, String petId) async {
     await _petService.deletePet(petId);
+
+    final clientProvider = Provider.of<ClientProvider>(context, listen: false);
+    final clients = clientProvider.clients;
+    for (final client in clients) {
+      if (client.mascotas.contains(petId)) {
+        client.mascotas.remove(petId);
+        await clientProvider.updateClient(client);
+        break;
+      }
+    }
+
     notifyListeners();
   }
 }

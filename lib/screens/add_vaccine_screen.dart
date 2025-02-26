@@ -93,7 +93,7 @@ class AddVaccineScreen extends StatelessWidget {
         }
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(vaccine != null ? 'Vacuna actualizada correctamente' : 'Vacuna creada correctamente')),
+          SnackBar(content: Text(vaccine != null ? 'Vacuna actualizada correctamente' : 'Vacuna creada correctamente'), backgroundColor: Colors.green),
         );
 
         Navigator.pop(context);

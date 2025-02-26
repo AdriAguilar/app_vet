@@ -1,28 +1,42 @@
+import 'package:app_vet/providers/client_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/pet_provider.dart';
 import '../models/Pet.dart';
 import '../ui/custom_text_input.dart';
 
-class AddPetScreen extends StatelessWidget {
+class AddPetScreen extends StatefulWidget {
 
   final Pet? pet;
 
   AddPetScreen({super.key, this.pet});
 
+  @override
+  _AddPetScreenState createState() => _AddPetScreenState();
+
+}
+
+class _AddPetScreenState extends State<AddPetScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _chipController = TextEditingController();
   final TextEditingController _tipoController = TextEditingController();
   final TextEditingController _razaController = TextEditingController();
   final TextEditingController _nombreController = TextEditingController();
   final TextEditingController _pesoController = TextEditingController();
-  final TextEditingController _idPropietarioController = TextEditingController();
   final TextEditingController _fechaNacimientoController = TextEditingController();
   final TextEditingController _observacionesController = TextEditingController();
+
+  String? selectedClientId;
 
 
   Future<void> _savePet(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
+      if (selectedClientId == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Debes seleccionar un propietario')),
+        );
+        return;
+      }
 
       DateTime fechaNacimiento;
       try {
@@ -36,34 +50,33 @@ class AddPetScreen extends StatelessWidget {
       }
 
       final newPet = Pet(
-        id: pet?.id ?? '',
+        id: widget.pet?.id ?? '',
         chip: _chipController.text,
         tipo: _tipoController.text,
         raza: _razaController.text,
         nombre: _nombreController.text,
         peso: double.tryParse(_pesoController.text) ?? 0.0,
-        idPropietario: int.tryParse(_idPropietarioController.text) ?? 0,
+        idPropietario: selectedClientId!,
         fechaNacimiento: fechaNacimiento,
         observaciones: _observacionesController.text,
       );
 
       try {
-        if (pet != null) {
+        if (widget.pet != null) {
           await Provider.of<PetProvider>(context, listen: false).updatePet(newPet);
         } else {
           await Provider.of<PetProvider>(context, listen: false).addPet(newPet);
         }
 
+        final clientProvider = Provider.of<ClientProvider>(context, listen: false);
+        final client = clientProvider.clients.firstWhere((c) => c.id == selectedClientId);
+        if (client != null) {
+          client.mascotas.add(newPet.id); // Agregar el ID de la mascota
+          await clientProvider.updateClient(client); // Actualizar el cliente en Firebase
+        }
+
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(pet != null ? "Mascota actualizada correctamente." : 'Mascota creada correctamente.'),
-            backgroundColor: Colors.green,
-            duration: Duration(seconds: 2),
-            action: SnackBarAction(
-              label: "Aceptar", 
-              onPressed: () {}
-            ),
-          ),
+          SnackBar(content: Text(widget.pet != null ? "Mascota actualizada correctamente." : 'Mascota creada correctamente.'), backgroundColor: Colors.green),
         );
 
         Navigator.pop(context);
@@ -77,15 +90,18 @@ class AddPetScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (pet != null) {
-      _chipController.text = pet!.chip;
-      _tipoController.text = pet!.tipo;
-      _razaController.text = pet!.raza;
-      _nombreController.text = pet!.nombre;
-      _pesoController.text = pet!.peso.toString();
-      _idPropietarioController.text = pet!.idPropietario.toString();
-      _fechaNacimientoController.text = pet!.fechaNacimiento.toIso8601String().split('T')[0];
-      _observacionesController.text = pet!.observaciones ?? '';
+    final clientProvider = Provider.of<ClientProvider>(context);
+    final clients = clientProvider.clients;
+
+    if (widget.pet != null) {
+      _chipController.text = widget.pet!.chip;
+      _tipoController.text = widget.pet!.tipo;
+      _razaController.text = widget.pet!.raza;
+      _nombreController.text = widget.pet!.nombre;
+      _pesoController.text = widget.pet!.peso.toString();
+      selectedClientId = widget.pet!.idPropietario.toString();
+      _fechaNacimientoController.text = widget.pet!.fechaNacimiento.toIso8601String().split('T')[0];
+      _observacionesController.text = widget.pet!.observaciones ?? '';
     }
 
     return Scaffold(
@@ -148,13 +164,24 @@ class AddPetScreen extends StatelessWidget {
               SizedBox(height: 10),
 
               // Campo ID Propietario
-              CustomTextInput(
-                controller: _idPropietarioController,
-                label: 'ID Propietario',
-                hint: 'Ejemplo: 12345',
-                filled: true,
-                keyboardType: TextInputType.number,
-                validator: (value) => value!.isEmpty ? 'Requerido' : null,
+              DropdownButtonFormField<String>(
+                value: selectedClientId,
+                items: clients.map((client) {
+                  return DropdownMenuItem(
+                    value: client.id,
+                    child: Text(client.nombre),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedClientId = value; // Guardar el ID del cliente seleccionado
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: 'Propietario',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) => value == null ? 'Selecciona un propietario' : null,
               ),
               SizedBox(height: 10),
 

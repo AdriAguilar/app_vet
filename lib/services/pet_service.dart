@@ -36,6 +36,54 @@ class PetService {
     });
   }
 
+  Stream<List<Pet>> getPetsByClient(String clientId) {
+    final clientRef = FirebaseDatabase.instance.ref('clients/$clientId');
+
+    return clientRef.onValue.asyncMap((clientEvent) async {
+      final clientData = clientEvent.snapshot.value as Map<dynamic, dynamic>?;
+
+      if (clientData == null || !clientData.containsKey('mascotas')) {
+        print('El cliente con ID $clientId no tiene mascotas.');
+        return [];
+      }
+
+      // Asegurarse de que mascotas sea una lista
+      final petIds = (clientData['mascotas'] as List<dynamic>? ?? []).map((e) => e.toString()).toList();
+      if (petIds.isEmpty) {
+        print('El cliente con ID $clientId no tiene mascotas asociadas.');
+        return [];
+      }
+
+      // Obtener todas las mascotas por IDs
+      final petsRef = FirebaseDatabase.instance.ref('pets');
+      final petsSnapshot = await petsRef.get();
+
+      if (!petsSnapshot.exists) {
+        print('No se encontraron mascotas en Firebase.');
+        return [];
+      }
+
+      // Convertir datos a Map<String, dynamic>
+      final petsData = Map<String, dynamic>.from(petsSnapshot.value as Map<dynamic, dynamic>);
+
+      // Filtrar solo las mascotas asociadas al cliente
+      return petIds
+          .where((petId) => petsData.containsKey(petId)) // Solo IDs válidos
+          .map((petId) {
+            try {
+              // Convertir explícitamente a Map<String, dynamic>
+              final petData = Map<String, dynamic>.from(petsData[petId] as Map<dynamic, dynamic>);
+              return Pet.fromJson(petData, petId);
+            } catch (e) {
+              print('Error al procesar mascota con ID $petId: $e');
+              return null;
+            }
+          })
+          .whereType<Pet>() // Filtrar entradas nulas
+          .toList();
+    });
+  }
+
   Future<void> addPet(Pet pet) async {
     final newPetRef = _petsRef.push();
     pet.id = newPetRef.key!;
