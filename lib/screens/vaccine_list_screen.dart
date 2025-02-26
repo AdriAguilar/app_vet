@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
 import '../providers/vaccine_provider.dart';
 import '../models/Vaccine.dart';
 
@@ -22,7 +23,15 @@ class VaccineListScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Vacunas')),
+      appBar: AppBar(
+        title: Text('Vacunas'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () => Provider.of<AuthProvider>(context, listen: false).signOut(),
+          ),
+        ],
+      ),
       body: vaccineProvider.vaccines.isEmpty
           ? Center(child: Text('No hay vacunas'))
           : ListView.builder(

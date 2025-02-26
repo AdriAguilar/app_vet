@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
 import '../providers/client_provider.dart';
 import '../models/Client.dart';
 
@@ -9,7 +10,15 @@ class ClientListScreen extends StatelessWidget {
     final clientProvider = Provider.of<ClientProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Lista de Clientes')),
+      appBar: AppBar(
+        title: Text('Lista de Clientes'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () => Provider.of<AuthProvider>(context, listen: false).signOut(),
+          ),
+        ],
+      ),
       body: clientProvider.clients.isEmpty
           ? Center(child: Text('No hay clientes'))
           : ListView.builder(

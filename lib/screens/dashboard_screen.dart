@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/auth_provider.dart';
 
 class DashboardScreen extends StatelessWidget {
   @override
@@ -7,6 +10,12 @@ class DashboardScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Veterinaria'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () => Provider.of<AuthProvider>(context, listen: false).signOut(),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

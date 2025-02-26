@@ -34,6 +34,7 @@ class CustomTextInput extends StatelessWidget {
       onChanged: onChanged,
       onSaved: onSaved,
       validator: validator,
+      obscureText: obscure,
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,

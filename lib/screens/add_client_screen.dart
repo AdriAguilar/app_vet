@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
 import '../providers/client_provider.dart';
 import '../models/Client.dart';
 import '../ui/custom_text_input.dart';
@@ -28,6 +29,12 @@ class AddClientScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(client != null ? 'Editar Cliente' : 'Agregar Cliente'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () => Provider.of<AuthProvider>(context, listen: false).signOut(),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

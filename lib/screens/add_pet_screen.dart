@@ -1,6 +1,7 @@
 import 'package:app_vet/providers/client_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
 import '../providers/pet_provider.dart';
 import '../models/Pet.dart';
 import '../ui/custom_text_input.dart';
@@ -105,7 +106,15 @@ class _AddPetScreenState extends State<AddPetScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Agregar Mascota')),
+      appBar: AppBar(
+        title: Text('Agregar Mascota'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () => Provider.of<AuthProvider>(context, listen: false).signOut(),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
