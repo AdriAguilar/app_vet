@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/pet_provider.dart';
-import '../models/Pet.dart';
 
 class PetListScreen extends StatelessWidget {
   const PetListScreen({super.key});
@@ -24,6 +23,22 @@ class PetListScreen extends StatelessWidget {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      IconButton(
+                        icon: Icon(Icons.medical_services),
+                        onPressed: () {
+                          if (pet.id != null && pet.id.isNotEmpty) {
+                            Navigator.pushNamed(
+                              context,
+                              '/vaccine-list',
+                              arguments: pet.id,
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('No se pudo cargar las vacunas para esta mascota')),
+                            );
+                          }
+                        },
+                      ),
                       IconButton(
                         icon: Icon(Icons.edit),
                         onPressed: () {

@@ -38,21 +38,21 @@ class Pet {
   }
 
   factory Pet.fromJson(Map<String, dynamic> json, String id) {
-  try {
-    return Pet(
-      id: id,
-      chip: json['chip']?.toString() ?? '',
-      tipo: json['tipo']?.toString() ?? '',
-      raza: json['raza']?.toString() ?? '',
-      nombre: json['nombre']?.toString() ?? '',
-      peso: double.tryParse(json['peso']?.toString() ?? '0') ?? 0.0,
-      idPropietario: int.tryParse(json['idPropietario']?.toString() ?? '0') ?? 0,
-      fechaNacimiento: DateTime.tryParse(json['fechaNacimiento']?.toString() ?? '') ?? DateTime.now(),
-      observaciones: json['observaciones']?.toString() ?? '',
-    );
-  } catch (e) {
-    print('Error al procesar mascota con ID $id: $e');
-    rethrow; // Propagar el error para que sea capturado más arriba
+    try {
+      return Pet(
+        id: id,
+        chip: json['chip']?.toString() ?? '',
+        tipo: json['tipo']?.toString() ?? '',
+        raza: json['raza']?.toString() ?? '',
+        nombre: json['nombre']?.toString() ?? '',
+        peso: double.tryParse(json['peso']?.toString() ?? '0') ?? 0.0,
+        idPropietario: int.tryParse(json['idPropietario']?.toString() ?? '0') ?? 0,
+        fechaNacimiento: DateTime.tryParse(json['fechaNacimiento']?.toString() ?? '') ?? DateTime.now(),
+        observaciones: json['observaciones']?.toString() ?? '',
+      );
+    } catch (e) {
+      print('Error al procesar mascota con ID $id: $e');
+      rethrow; // Propagar el error para que sea capturado más arriba
+    }
   }
-}
 }
