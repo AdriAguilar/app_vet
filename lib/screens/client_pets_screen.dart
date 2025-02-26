@@ -24,6 +24,8 @@ class ClientPetsScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Mascotas del Cliente'),
+          backgroundColor: Colors.indigoAccent,
+          foregroundColor: Colors.white,
           actions: [
             IconButton(
               icon: Icon(Icons.logout),
@@ -31,6 +33,7 @@ class ClientPetsScreen extends StatelessWidget {
             ),
           ],
         ),
+        backgroundColor: Colors.indigo[50],
         body: clientPetsProvider.pets.isEmpty
             ? Center(child: Text('No hay mascotas asociadas'))
             : ListView.builder(

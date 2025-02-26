@@ -25,6 +25,8 @@ class VaccineListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Vacunas'),
+        backgroundColor: Colors.indigoAccent,
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -32,6 +34,7 @@ class VaccineListScreen extends StatelessWidget {
           ),
         ],
       ),
+      backgroundColor: Colors.indigo[50],
       body: vaccineProvider.vaccines.isEmpty
           ? Center(child: Text('No hay vacunas'))
           : ListView.builder(
@@ -62,6 +65,8 @@ class VaccineListScreen extends StatelessWidget {
               },
             ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.indigoAccent,
+        foregroundColor: Colors.white,
         onPressed: () {
           Navigator.pushNamed(context, '/add-vaccine', arguments: {'petId': petId, 'vaccine': null});
         },

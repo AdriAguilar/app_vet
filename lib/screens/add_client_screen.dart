@@ -29,6 +29,8 @@ class AddClientScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(client != null ? 'Editar Cliente' : 'Agregar Cliente'),
+        backgroundColor: Colors.indigoAccent,
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -36,6 +38,7 @@ class AddClientScreen extends StatelessWidget {
           ),
         ],
       ),
+      backgroundColor: Colors.indigo[50],
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -70,6 +73,11 @@ class AddClientScreen extends StatelessWidget {
               ),
               SizedBox(height: 20),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.indigoAccent,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
                 onPressed: () => _saveClient(context),
                 child: Text(client != null ? 'Actualizar' : 'Guardar'),
               ),

@@ -13,7 +13,13 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Iniciar Sesión')),
+      appBar: AppBar(
+        title: Text('Iniciar Sesión'),
+        centerTitle: true,
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.indigoAccent,
+      ),
+      backgroundColor: Colors.indigo[50],
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -31,11 +37,16 @@ class LoginScreen extends StatelessWidget {
                 controller: _passwordController,
                 obscure: true,
                 label: 'Contraseña',
-                hint: "Contraseña segura",
+                hint: "",
                 validator: (value) => value!.isEmpty ? 'Requerido' : null,
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.indigoAccent,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
                 onPressed: () => _signIn(context),
                 child: Text('Iniciar Sesión'),
               ),

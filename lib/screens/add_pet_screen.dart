@@ -108,6 +108,8 @@ class _AddPetScreenState extends State<AddPetScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Agregar Mascota'),
+        backgroundColor: Colors.indigoAccent,
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -115,6 +117,7 @@ class _AddPetScreenState extends State<AddPetScreen> {
           ),
         ],
       ),
+      backgroundColor: Colors.indigo[50],
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -126,7 +129,6 @@ class _AddPetScreenState extends State<AddPetScreen> {
                 controller: _chipController,
                 label: 'Chip',
                 hint: 'Ingrese el número de chip',
-                filled: true,
                 validator: (value) => value!.isEmpty ? 'Requerido' : null,
               ),
               SizedBox(height: 10),
@@ -136,7 +138,6 @@ class _AddPetScreenState extends State<AddPetScreen> {
                 controller: _tipoController,
                 label: 'Tipo',
                 hint: 'Ejemplo: Perro, Gato, etc.',
-                filled: true,
                 validator: (value) => value!.isEmpty ? 'Requerido' : null,
               ),
               SizedBox(height: 10),
@@ -146,7 +147,6 @@ class _AddPetScreenState extends State<AddPetScreen> {
                 controller: _razaController,
                 label: 'Raza',
                 hint: 'Ejemplo: Labrador, Siames, etc.',
-                filled: true,
                 validator: (value) => value!.isEmpty ? 'Requerido' : null,
               ),
               SizedBox(height: 10),
@@ -156,7 +156,6 @@ class _AddPetScreenState extends State<AddPetScreen> {
                 controller: _nombreController,
                 label: 'Nombre',
                 hint: 'Nombre de la mascota',
-                filled: true,
                 validator: (value) => value!.isEmpty ? 'Requerido' : null,
               ),
               SizedBox(height: 10),
@@ -166,7 +165,6 @@ class _AddPetScreenState extends State<AddPetScreen> {
                 controller: _pesoController,
                 label: 'Peso (kg)',
                 hint: 'Ejemplo: 5.5',
-                filled: true,
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                 validator: (value) => value!.isEmpty ? 'Requerido' : null,
               ),
@@ -178,17 +176,21 @@ class _AddPetScreenState extends State<AddPetScreen> {
                 items: clients.map((client) {
                   return DropdownMenuItem(
                     value: client.id,
-                    child: Text(client.nombre),
+                    child: Container(
+                      child: Text(client.nombre),
+                    ),
                   );
                 }).toList(),
                 onChanged: (value) {
                   setState(() {
-                    selectedClientId = value; // Guardar el ID del cliente seleccionado
+                    selectedClientId = value;
                   });
                 },
                 decoration: InputDecoration(
                   labelText: 'Propietario',
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10)
+                  ),
                 ),
                 validator: (value) => value == null ? 'Selecciona un propietario' : null,
               ),
@@ -199,7 +201,6 @@ class _AddPetScreenState extends State<AddPetScreen> {
                 controller: _fechaNacimientoController,
                 label: 'Fecha de Nacimiento',
                 hint: 'Formato: YYYY-MM-DD',
-                filled: true,
                 keyboardType: TextInputType.datetime,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -216,12 +217,16 @@ class _AddPetScreenState extends State<AddPetScreen> {
                 controller: _observacionesController,
                 label: 'Observaciones',
                 hint: 'Anotaciones adicionales',
-                filled: true,
               ),
               SizedBox(height: 20),
 
               // Botón Guardar
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.indigoAccent,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
                 onPressed: () => _savePet(context),
                 child: Text('Guardar'),
               ),

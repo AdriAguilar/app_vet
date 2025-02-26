@@ -13,6 +13,8 @@ class PetListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Lista de Mascotas'),
+        backgroundColor: Colors.indigoAccent,
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -20,6 +22,7 @@ class PetListScreen extends StatelessWidget {
           ),
         ],
       ),
+      backgroundColor: Colors.indigo[50],
       body: petProvider.pets.isEmpty
           ? Center(child: Text('No hay mascotas'))
           : ListView.builder(
@@ -66,6 +69,8 @@ class PetListScreen extends StatelessWidget {
               },
             ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.indigoAccent,
+        foregroundColor: Colors.white,
         onPressed: () {
           Navigator.pushNamed(context, '/add-pet');
         },

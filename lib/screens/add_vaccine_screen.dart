@@ -29,6 +29,8 @@ class AddVaccineScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(vaccine != null ? 'Editar Vacuna' : 'Agregar Vacuna'),
+        backgroundColor: Colors.indigoAccent,
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -36,6 +38,7 @@ class AddVaccineScreen extends StatelessWidget {
           ),
         ],
       ),
+      backgroundColor: Colors.indigo[50],
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -71,6 +74,11 @@ class AddVaccineScreen extends StatelessWidget {
               ),
               SizedBox(height: 20),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.indigoAccent,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
                 onPressed: () => _saveVaccine(context),
                 child: Text(vaccine != null ? 'Actualizar' : 'Guardar'),
               ),

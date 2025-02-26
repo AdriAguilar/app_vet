@@ -10,6 +10,8 @@ class DashboardScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Veterinaria'),
         centerTitle: true,
+        backgroundColor: Colors.indigoAccent,
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -17,6 +19,7 @@ class DashboardScreen extends StatelessWidget {
           ),
         ],
       ),
+      backgroundColor: Colors.indigo[50],
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -29,6 +32,9 @@ class DashboardScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(double.infinity, 50),
                 textStyle: TextStyle(fontSize: 18),
+                backgroundColor: Colors.indigoAccent,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
               child: Text('Mascotas'),
             ),
@@ -40,6 +46,9 @@ class DashboardScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(double.infinity, 50),
                 textStyle: TextStyle(fontSize: 18),
+                backgroundColor: Colors.indigoAccent,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
               child: Text('Clientes'),
             ),

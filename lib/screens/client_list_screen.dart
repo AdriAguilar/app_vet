@@ -12,6 +12,8 @@ class ClientListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Lista de Clientes'),
+        backgroundColor: Colors.indigoAccent,
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -19,6 +21,7 @@ class ClientListScreen extends StatelessWidget {
           ),
         ],
       ),
+      backgroundColor: Colors.indigo[50],
       body: clientProvider.clients.isEmpty
           ? Center(child: Text('No hay clientes'))
           : ListView.builder(
@@ -63,6 +66,8 @@ class ClientListScreen extends StatelessWidget {
               },
             ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.indigoAccent,
+        foregroundColor: Colors.white,
         onPressed: () {
           Navigator.pushNamed(context, '/add-client', arguments: null);
         },
