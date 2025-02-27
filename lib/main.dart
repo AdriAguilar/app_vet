@@ -1,11 +1,14 @@
 import 'package:app_vet/firebase_options.dart';
 import 'package:app_vet/models/Client.dart';
 import 'package:app_vet/models/Pet.dart';
+import 'package:app_vet/providers/appointment_provider.dart';
 import 'package:app_vet/providers/auth_provider.dart';
 import 'package:app_vet/providers/client_pets_provider.dart';
 import 'package:app_vet/providers/client_provider.dart';
 import 'package:app_vet/providers/vaccine_provider.dart';
+import 'package:app_vet/screens/add_appointment_screen.dart';
 import 'package:app_vet/screens/add_vaccine_screen.dart';
+import 'package:app_vet/screens/client_appointment_screen.dart';
 import 'package:app_vet/screens/client_pets_screen.dart';
 import 'package:app_vet/screens/dashboard_screen.dart';
 import 'package:app_vet/screens/login_screen.dart';
@@ -15,6 +18,7 @@ import 'package:app_vet/widgets/protected_route.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'models/Appointment.dart';
 import 'models/Vaccine.dart';
 import 'providers/pet_provider.dart';
 import 'screens/add_client_screen.dart';
@@ -42,6 +46,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => VaccineProvider()),
         ChangeNotifierProvider(create: (_) => ClientProvider()..listenToClients()),
         ChangeNotifierProvider(create: (_) => ClientPetsProvider()),
+        ChangeNotifierProvider(create: (context) => AppointmentProvider())
       ],
       child: MaterialApp(
         title: 'Veterinaria',
@@ -61,7 +66,12 @@ class MyApp extends StatelessWidget {
           )),
           '/client-list': (context) => ProtectedRoute(child: ClientListScreen()),
           '/add-client': (context) => ProtectedRoute(child: AddClientScreen(client: ModalRoute.of(context)?.settings.arguments as Client?)),
-          '/client-pets': (context) => ProtectedRoute(child: ClientPetsScreen(clientId: ModalRoute.of(context)?.settings.arguments as String))
+          '/client-pets': (context) => ProtectedRoute(child: ClientPetsScreen(clientId: ModalRoute.of(context)?.settings.arguments as String)),
+          '/client-appointments': (context) => ProtectedRoute(child: ClientAppointmentsScreen(clientId: ModalRoute.of(context)?.settings.arguments as String)),
+          '/add-appointment': (context) => ProtectedRoute(child: AddAppointmentScreen(
+            clientId: (ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?)?['clientId'] as String?,
+            appointment: (ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?)?['appointment'] as Appointment?,
+          )),
         },
       ),
     );

@@ -35,6 +35,16 @@ class ClientListScreen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
+                        icon: Icon(Icons.event),
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/client-appointments',
+                            arguments: client.id,
+                          );
+                        },
+                      ),
+                      IconButton(
                         icon: Icon(Icons.pets),
                         onPressed: () {
                           Navigator.pushNamed(
