@@ -8,7 +8,7 @@ import '../models/Pet.dart';
 class ClientPetsScreen extends StatelessWidget {
   final String clientId;
 
-  ClientPetsScreen({required this.clientId});
+  const ClientPetsScreen({super.key, required this.clientId});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +16,7 @@ class ClientPetsScreen extends StatelessWidget {
 
     clientPetsProvider.listenToClientPets(clientId);
 
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         clientPetsProvider.clearListener();

@@ -25,7 +25,13 @@ class LoginScreen extends StatelessWidget {
         child: Form(
           key: _formKey,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text(
+                'Inicia sesión con tu cuenta',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20),
               CustomTextInput(
                 controller: _emailController,
                 label: 'Correo Electrónico',
@@ -56,7 +62,7 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
-
+  
   Future<void> _signIn(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);

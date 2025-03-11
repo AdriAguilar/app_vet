@@ -40,6 +40,10 @@ class CustomTextInput extends StatelessWidget {
         hintText: hint,
         filled: filled,
         fillColor: fillColor,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.indigo),
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
